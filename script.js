@@ -1,13 +1,9 @@
-// ---------- Custom exceptions ----------
 class InvalidInputException extends Error {}
 class IncidentNotFoundException extends Error {
   constructor(id) { super(`Incident not found (ID: ${id}).`); }
 }
 class IncidentClosedException extends Error {}
 
-// ---------- Incident classes ----------
-// JavaScript has no "interface" keyword, so Reportable (generateReport) and
-// Escalatable (requiresEscalation) are simply methods on the base class.
 class SecurityIncident {
   constructor(id, reporter, description, severity = "Medium", status = "Open") {
     if (new.target === SecurityIncident) throw new Error("SecurityIncident is abstract");
@@ -66,9 +62,9 @@ const STATUSES = ["Open", "Under Investigation", "Resolved"];
 // ---------- Manager ----------
 class IncidentManager {
   constructor() {
-    this.incidents = [];              // ArrayList
-    this.incidentMap = new Map();     // HashMap<Integer, SecurityIncident>
-    this.escalationQueue = [];        // Queue (holds incident IDs)
+    this.incidents = [];             
+    this.incidentMap = new Map();    
+    this.escalationQueue = [];       
     this.nextId = 1;
     this.load();
   }
@@ -171,7 +167,7 @@ class IncidentManager {
           description: i.description, severity: i.severity, status: i.status,
         })),
       }));
-    } catch (e) { /* storage unavailable: keep working in memory */ }
+    } catch (e) { }
   }
 
   load() {
@@ -183,7 +179,7 @@ class IncidentManager {
       this.incidents = data.items.map(d =>
         new TYPES[d.type](d.id, d.reporter, d.description, d.severity, d.status));
       this.incidents.forEach(i => this.incidentMap.set(i.id, i));
-    } catch (e) { /* ignore corrupt or missing data */ }
+    } catch (e) { }
   }
 }
 
@@ -258,7 +254,6 @@ function formMessage(text, ok) {
   el.className = ok ? "ok" : "";
 }
 
-// Run an action, show any exception message, then redraw
 function attempt(action) {
   try { action(); } catch (e) { notice(e.message, false); }
   render();
