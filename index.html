@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cybersecurity Incident System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Cybersecurity Incident System</h1>
+    <p id="summary"></p>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="report-h">
+      <h2 id="report-h">Report a security incident</h2>
+      <form id="report-form">
+        <label>Incident type
+          <select id="type">
+            <option value="Malware">Malware</option>
+            <option value="Phishing">Phishing</option>
+            <option value="Unauthorized Access">Unauthorized Access</option>
+          </select>
+        </label>
+        <label>Reporter name
+          <input id="reporter" type="text" autocomplete="off">
+        </label>
+        <label>Description
+          <textarea id="description" rows="4"></textarea>
+        </label>
+        <p id="form-msg" role="alert"></p>
+        <button type="submit">Report incident</button>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="list-h">
+      <h2 id="list-h">Incidents</h2>
+      <div class="toolbar">
+        <div class="tabs" role="group" aria-label="Filter">
+          <button type="button" class="tab active" data-filter="all">View all</button>
+          <button type="button" class="tab" data-filter="high">High severity</button>
+        </div>
+        <input id="search" type="search" placeholder="Search by incident ID" inputmode="numeric">
+      </div>
+      <div class="escalation">
+        <button type="button" id="escalate-btn" class="secondary">Process next escalation</button>
+        <span id="queue-count"></span>
+      </div>
+      <p id="notice" role="status"></p>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
