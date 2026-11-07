@@ -59,7 +59,6 @@ const TYPES = {
 const SEVERITIES = ["Low", "Medium", "High", "Critical"];
 const STATUSES = ["Open", "Under Investigation", "Resolved"];
 
-// ---------- Manager ----------
 class IncidentManager {
   constructor() {
     this.incidents = [];             
@@ -183,7 +182,6 @@ class IncidentManager {
   }
 }
 
-// ---------- UI ----------
 const manager = new IncidentManager();
 let filter = "all";
 
