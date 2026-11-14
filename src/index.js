@@ -52,7 +52,10 @@ async function handle({ request, env, params }) {
       const r = await db.prepare("INSERT INTO users (username, role, salt, hash, created) VALUES (?, 'user', ?, ?, ?)")
         .bind(name, salt, await hashPw(pw, salt), now).run();
       return startSession({ id: r.meta.last_row_id, username: name, role: "user" });
-    } catch (e) { return J({ error: "That username is already taken." }, 409); }
+    } catch (e) {
+      const dup = /UNIQUE/i.test(String(e));
+      return J({ error: dup ? "That username is already taken." : "Database error: " + (e.message || e) }, dup ? 409 : 500);
+    }
   }
 
   if (a === "login" && method === "POST") {
@@ -173,6 +176,11 @@ export default {
     const url = new URL(request.url);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
     const path = url.pathname.slice(5).split("/").filter(Boolean);
-    return handle({ request, env, params: { path } });
+    try {
+      return await handle({ request, env, params: { path } });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Server error: " + (e.message || e) }),
+        { status: 500, headers: { "Content-Type": "application/json" } });
+    }
   },
 };
