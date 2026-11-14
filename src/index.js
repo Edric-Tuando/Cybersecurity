@@ -64,6 +64,7 @@ async function handle({ request, env, params }) {
     if (f && f.until > now) return J({ error: "Too many attempts. Wait 5 minutes and try again." }, 429);
     let u = null, ok = false;
     if (key === "admin") {
+      if (!env.ADMIN_PASSWORD) return J({ error: "The ADMIN_PASSWORD secret is not set on this Worker." }, 500);
       ok = !!env.ADMIN_PASSWORD && (await sha(pw)) === (await sha(env.ADMIN_PASSWORD));
       if (ok) {
         await db.prepare("INSERT OR IGNORE INTO users (username, role, salt, hash, created) VALUES ('admin', 'admin', '', '', ?)").bind(now).run();
