@@ -1,6 +1,10 @@
 :root {
   --bg: #e9edf1;
   --panel: #ffffff;
+  --surface: #ffffff;
+  --soft: #eef3f8;
+  --closed: #f4f6f8;
+  --errbg: #fbeeee;
   --ink: #1b2733;
   --muted: #5d6b79;
   --line: #cfd7df;
@@ -9,7 +13,48 @@
   --medium: #b7791f;
   --high: #c05621;
   --critical: #b02a37;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11171d;
+    --panel: #1a232d;
+    --surface: #222d39;
+    --soft: #222d39;
+    --closed: #151c24;
+    --errbg: #3a1d21;
+    --ink: #e6ecf2;
+    --muted: #9aa8b6;
+    --line: #34424f;
+    --brand: #4a86bd;
+    --low: #5fb48a;
+    --medium: #d69e3a;
+    --high: #e07b45;
+    --critical: #e5656f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11171d;
+  --panel: #1a232d;
+  --surface: #222d39;
+  --soft: #222d39;
+  --closed: #151c24;
+  --errbg: #3a1d21;
+  --ink: #e6ecf2;
+  --muted: #9aa8b6;
+  --line: #34424f;
+  --brand: #4a86bd;
+  --low: #5fb48a;
+  --medium: #d69e3a;
+  --high: #e07b45;
+  --critical: #e5656f;
+  color-scheme: dark;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -43,7 +88,7 @@ label { display: block; font-size: .9rem; font-weight: 500; margin-bottom: .9rem
 input, select, textarea {
   display: block; width: 100%; margin-top: .3rem;
   padding: .55rem .65rem; font: inherit;
-  border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink);
 }
 textarea { resize: vertical; }
 button {
@@ -52,8 +97,8 @@ button {
   padding: .55rem 1rem;
 }
 button:hover { filter: brightness(1.1); }
-button.secondary { background: #fff; color: var(--brand); }
-button.danger { background: #fff; color: var(--critical); border-color: var(--critical); }
+button.secondary { background: var(--surface); color: var(--brand); }
+button.danger { background: var(--surface); color: var(--critical); border-color: var(--critical); }
 :focus-visible { outline: 3px solid #6aa6d9; outline-offset: 2px; }
 #form-msg { min-height: 1.3em; margin: 0 0 .6rem; font-size: .9rem; color: var(--critical); }
 #form-msg.ok { color: var(--low); }
@@ -61,7 +106,7 @@ button.danger { background: #fff; color: var(--critical); border-color: var(--cr
 .toolbar { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; margin-bottom: 1rem; }
 .toolbar input { width: 15rem; margin: 0; }
 .tabs { display: flex; }
-.tab { background: #fff; color: var(--brand); border-radius: 0; }
+.tab { background: var(--surface); color: var(--brand); border-radius: 0; }
 .tab:first-child { border-radius: 4px 0 0 4px; }
 .tab:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
 .tab.active { background: var(--brand); color: #fff; }
@@ -77,11 +122,11 @@ button.danger { background: #fff; color: var(--critical); border-color: var(--cr
 .incident.Medium { border-left-color: var(--medium); }
 .incident.High { border-left-color: var(--high); }
 .incident.Critical { border-left-color: var(--critical); }
-.incident.is-closed { opacity: .65; background: #f4f6f8; }
+.incident.is-closed { opacity: .65; background: var(--closed); }
 .incident h3 { margin: 0 0 .25rem; font-size: 1rem; }
 .meta { color: var(--muted); font-size: .85rem; margin: 0 0 .5rem; }
 .desc { margin: 0 0 .5rem; }
-.response { font-size: .9rem; background: #eef3f8; padding: .5rem .7rem; border-radius: 4px; margin: 0 0 .75rem; }
+.response { font-size: .9rem; background: var(--soft); padding: .5rem .7rem; border-radius: 4px; margin: 0 0 .75rem; }
 .badge { font-size: .8rem; font-weight: 600; padding: .1rem .5rem; border-radius: 99px; color: #fff; background: var(--medium); }
 .badge.Low { background: var(--low); }
 .badge.High { background: var(--high); }
@@ -96,7 +141,32 @@ button.danger { background: #fff; color: var(--critical); border-color: var(--cr
 .escalation { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1rem; }
 #queue-count { color: var(--muted); font-size: .9rem; }
 #notice { margin: 0 0 1rem; font-size: .9rem; white-space: pre-line; }
-#notice:not(:empty) { padding: .6rem .8rem; border-radius: 4px; background: #eef3f8; border-left: 4px solid var(--brand); }
-#notice.err { border-left-color: var(--critical); color: var(--critical); background: #fbeeee; }
+#notice:not(:empty) { padding: .6rem .8rem; border-radius: 4px; background: var(--soft); border-left: 4px solid var(--brand); }
+#notice.err { border-left-color: var(--critical); color: var(--critical); background: var(--errbg); }
 #notice.ok { border-left-color: var(--low); }
 .risk { font-weight: 600; }
+
+/* ---------- Login and admin ---------- */
+[hidden] { display: none !important; }
+body.locked > header, body.locked > main, body.locked > #userbar { display: none; }
+body:not(.locked) > #auth { display: none; }
+.auth-screen { min-height: 100vh; display: grid; place-items: center; padding: 1.5rem; }
+.auth-card { width: min(100%, 24rem); }
+.auth-card h1 { font-size: 1.3rem; margin: 0 0 1rem; }
+.auth-tabs { display: flex; margin-bottom: 1rem; }
+.auth-tabs button { flex: 1; background: var(--surface); color: var(--brand); border-radius: 0; }
+.auth-tabs button:first-child { border-radius: 4px 0 0 4px; }
+.auth-tabs button:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
+.auth-tabs button.active { background: var(--brand); color: #fff; }
+.full { width: 100%; }
+#auth-msg { min-height: 1.3em; margin: 0 0 .6rem; font-size: .9rem; color: var(--critical); }
+.userbar { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between;
+  padding: .6rem clamp(1rem, 4vw, 3rem); background: var(--panel); border-bottom: 1px solid var(--line); font-size: .9rem; }
+body.role-admin header { background: #4a2f6b; }
+body.role-user .escalation { display: none; }
+#admin-users { grid-column: 1 / -1; }
+.table-wrap { overflow-x: auto; }
+table.users { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.users th, table.users td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--line); }
+
+body.loading > * { visibility: hidden; }
