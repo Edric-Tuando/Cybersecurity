@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cybersecurity.cybersecurity-ticketing",
+  "name": "cybersecurity",
   "main": "src/index.js",
   "compatibility_date": "2025-11-01",
   "assets": {
